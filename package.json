@@ -21,7 +21,8 @@
   "homepage": "https://github.com/AustinAbbott/Connect-Four#readme",
   "dependencies": {
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "webpack-cli": "^3.3.11"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

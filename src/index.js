@@ -1,4 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import Board from "./app.jsx"
 
-ReactDOM.render(<h1>Helloworld React!</h1>, document.getElementById('root'));
+
+ReactDOM.render(<Board />, document.getElementById("root"));
