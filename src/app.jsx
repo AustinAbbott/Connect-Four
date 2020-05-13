@@ -5,60 +5,67 @@ import React from "react";
 class Board extends React.Component {
   constructor() {
     super();
-    this.storage = [
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-    ],
-    this.state = {
-      // color: 'red',
-      1: 0,
-      2: 6,
-      3: 12,
-      4: 18,
-      5: 24,
-      6: 30,
-      7: 36,
-    };
-    this.onChange = this.onChange.bind(this)
+    (this.storage = [[], [], [], [], [], [], []]),
+      (this.state = {
+        1: 0,
+        2: 6,
+        3: 12,
+        4: 18,
+        5: 24,
+        6: 30,
+        7: 36,
+        won: false,
+      });
+    this.onChange = this.onChange.bind(this);
+    this.roundWon = this.roundWon.bind(this);
   }
 
   onChange(columnNum) {
-    let newColor = this.state.color === 'red' ? 'blue' : 'red'
-    let newVal = this.state[columnNum] + 1
+    let newColor = this.state.color === "red" ? "blue" : "red";
+    let newVal = this.state[columnNum] + 1;
 
     if (this.state[columnNum] < columnNum * 6) {
-      this.storage[columnNum - 1].push(newColor)
-      this.setState({[columnNum]: newVal, color: newColor}, () => document.getElementById(this.state[columnNum]).style.backgroundColor = newColor)
+      this.storage[columnNum - 1].push(newColor);
+      this.setState(
+        { [columnNum]: newVal, color: newColor },
+        () =>
+          (document.getElementById(
+            this.state[columnNum]
+          ).style.backgroundColor = newColor)
+      );
     }
-    console.log(this.storage)
+    this.roundWon();
   }
 
   roundWon() {
-
-    let color = this.storage[0][0]
-    let inARow = 0;
+    let inARow = 1;
 
     for (let i = 0; i < this.storage.length; i++) {
-
       for (let j = 0; j < this.storage[i].length; j++) {
-        if (this.storage[i][j] === color) {
-          inARow++
+        if (this.storage[i][j] === this.storage[i][j + 1]) {
+          inARow++;
         } else {
-          inARow = 0;
+          inARow = 1;
+        }
+
+        if (inARow > 3) {
+          console.log('Yo!')
+          break;
         }
       }
+      if (inARow > 3) {
+        break;
+      }
+    }
+    if (inARow > 3) {
+      this.setState({won: true})
+      // console.log(this.state)
     }
   }
 
   render() {
     return (
-      <div style={{padding: '5em'}}>
-      <div>{this.state.color}</div>
+      <div style={{ padding: "5em" }}>
         <table id="board" style={{transform: "rotate(270deg)"}}>
         <tbody>
           <tr onClick={() => this.onChange(1)}>
