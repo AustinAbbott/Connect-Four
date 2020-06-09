@@ -152,7 +152,7 @@ class Board extends React.Component {
     super();
     this.state = {
       board: [
-        [1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
@@ -160,24 +160,47 @@ class Board extends React.Component {
         [0, 0, 0, 0, 0, 0], 
         [0, 0, 0, 0, 0, 0]
       ],
+      turn: 1
     };
     this.playerMove = this.playerMove.bind(this)
   }
 
-  playerMove(columnNum){console.log(columnNum)}
+  playerMove(columnNum){
+
+    let column = this.state.board[columnNum]
+    
+    for (let i = column.length - 1; i > -1; i--) {
+
+      let newGrid = this.state.board
+
+      if (column[i] === 0) {
+        newGrid[columnNum][i] = this.state.turn;
+        this.setState({
+          board: newGrid
+        })
+
+        if (this.state.turn === 1) {
+          this.setState({turn: 2});
+        } else {
+          this.setState({turn: 1});
+        }
+        break;
+      }
+    }
+  }
 
   render() {
     return (
       <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr", textAlign: "center"}}>
         {this.state.board.map((column, index) => (
-          <div onClick={() => this.playerMove(index + 1)}> 
+          <div onClick={() => this.playerMove(index)} style={{border: "2px solid black"}}> 
             {column.map(function(tile) {
               if (!tile) {
-                return <div class="grey" style={{color: "grey", fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+                return <div className="grey" style={{color: "grey", fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
               } else if (tile === 1) {
-                return <div class="red" style={{color: "red",  fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+                return <div className="red" style={{color: "red",  fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
               } else {
-                return <div class="blue" style={{color: "blue", fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+                return <div className="blue" style={{color: "blue", fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
               }
             })}
           </div>
