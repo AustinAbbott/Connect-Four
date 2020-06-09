@@ -140,6 +140,7 @@
 // export default Board;
 
 import React from "react";
+// import "./style.css";
 
 // board is 7 across, 6 top to bottom
 // 0 = blank
@@ -147,16 +148,42 @@ import React from "react";
 // 2 = blue
 
 class Board extends React.Component {
-
   constructor() {
     super();
     this.state = {
-      board: [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
-    }
+      board: [
+        [1, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0], 
+        [0, 0, 0, 0, 0, 0]
+      ],
+    };
+    this.playerMove = this.playerMove.bind(this)
   }
-  
+
+  playerMove(columnNum){console.log(columnNum)}
+
   render() {
-    return <div>{this.state.board.map(element => element)}</div>;
+    return (
+      <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr", textAlign: "center"}}>
+        {this.state.board.map((column, index) => (
+          <div onClick={() => this.playerMove(index + 1)}> 
+            {column.map(function(tile) {
+              if (!tile) {
+                return <div class="grey" style={{color: "grey", fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+              } else if (tile === 1) {
+                return <div class="red" style={{color: "red",  fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+              } else {
+                return <div class="blue" style={{color: "blue", fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+              }
+            })}
+          </div>
+        ))}
+      </div>
+    );
   }
 }
 
