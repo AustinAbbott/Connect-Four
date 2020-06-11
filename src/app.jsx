@@ -1,5 +1,4 @@
 import React from "react";
-// import "./style.css";
 
 // board is 7 across, 6 top to bottom
 // 0 = blank
@@ -51,28 +50,24 @@ class Board extends React.Component {
   }
 
   roundChecker(board) {
-    
-    let count = 0;
 
+    // COLUMNS
     for (let i = 0; i < board.length; i++) {
-      for (let j = 0; j < board[i].length; j++) {
-        if (count >= 3) {
-          return count;
+      for (let j = 0; j < 3; j++) {
+        let value = board[i][j]
+        if (value !== 0 && board[i][j + 1] === value && board[i][j + 2] === value && board[i][j + 3] === value) {
+          this.setState({winner: `${value}`});
+          return;
         }
-        if (board[i][j] === board[i][j + 1] && board[i][j] !== 0) {
-          count++
-        } else {
-          count = 0;
-        }
-      }
     }
+  }
 
-    count = 0;
+    let count = 0;
 
     for (let i = 0; i < board[0].length; i++) {
       for (let j = 0; j < board.length - 1; j++) {
         if (count >= 3) {
-          return count;
+          return;
         }
         if (board[j][i] === board[j + 1][i] && board[j][i] !== 0) {
           count++
@@ -82,7 +77,7 @@ class Board extends React.Component {
       }
     }
 
-    // DIAGONALS
+    // ------ DIAGONALS -------- //
     let index = 0;
     let majorFinished = false;
 
@@ -92,15 +87,15 @@ class Board extends React.Component {
       for (let i = 0; i < 3; i++) {
         let value = board[index][i] 
         if (value !== 0 && value === board[index + 1][i + 1] && value === board[index + 2][i + 2] && value === board[index + 3][i + 3]) {
-          this.setState({winner: {value}})
+          this.setState({winner: `${value}`})
           majorFinished = true;
         }
-
-        if (index === 3 && i === 3 ) {
-          majorFinished = true;
-        } 
       }
+      if (index === 3) {
+        majorFinished = true;
+      } else {
         index++ 
+      }
       }
 
       // MINOR DIAGONALS
@@ -108,19 +103,18 @@ class Board extends React.Component {
       let minorFinished = false;
 
       while (!minorFinished) {
-
         for (let i = 5; i > 2; i--) {
           let value = board[index][i] 
           if (value !== 0 && value === board[index + 1][i - 1] && value === board[index + 2][i - 2] && value === board[index + 3][i - 3]) {
-            this.setState({winner: {value}})
+            this.setState({winner: `${value}`})
             minorFinished = true;
           }
-  
-          if (index === 3 && i === 3) {
-           minorFinished = true;
-         } 
         }
+        if (index === 3) {
+          minorFinished = true;
+        } else {
         index++ 
+        }
       }
   }
 
@@ -142,7 +136,7 @@ class Board extends React.Component {
           </div>
         ))}
       </div>
-      <div>{this.state.winner ? <div>Hello!</div> : null}</div>
+      <div>{this.state.winner ? <div>{this.state.winner === "2" ? 'Blue is the winner!' : "Red is the winner!"}</div> : null}</div>
       </div>
     );
   }
