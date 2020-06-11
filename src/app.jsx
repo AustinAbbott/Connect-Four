@@ -19,7 +19,8 @@ class Board extends React.Component {
         [0, 0, 0, 0, 0, 0], 
         [0, 0, 0, 0, 0, 0]
       ],
-      turn: 1
+      turn: 1,
+      winner: 0
     };
     this.playerMove = this.playerMove.bind(this)
   }
@@ -81,32 +82,51 @@ class Board extends React.Component {
       }
     }
 
-    // HERE
-    count = 0;
-    // major diag
-    let indexOne = 0; 
-    let indexTwo = 0;
-    let checked = 0;
+    // DIAGONALS
+    let index = 0;
+    let majorFinished = false;
 
-    while (checked < 4) {
-      for (let i = indexOne; i < indexOne + 4; i++) {
-        if (board[i][indexTwo] === board[i][indexTwo + 1]) {
-          count++
+    // MAJOR DIAGONALS
+    while (!majorFinished) {
+
+      for (let i = 0; i < 3; i++) {
+        let value = board[index][i] 
+        if (value !== 0 && value === board[index + 1][i + 1] && value === board[index + 2][i + 2] && value === board[index + 3][i + 3]) {
+          this.setState({winner: {value}})
+          majorFinished = true;
         }
 
-        console.log(i + '.' + indexTwo)
-        if (i === indexOne + 3) {
-          indexTwo = indexTwo - 2
-        } else {
-          indexTwo++
-        }   
-    }
-    checked++
-  }
+        if (index === 3 && i === 3 ) {
+          majorFinished = true;
+        } 
+      }
+        index++ 
+      }
+
+      // MINOR DIAGONALS
+      index = 0;
+      let minorFinished = false;
+
+      while (!minorFinished) {
+
+        for (let i = 5; i > 2; i--) {
+          let value = board[index][i] 
+          if (value !== 0 && value === board[index + 1][i - 1] && value === board[index + 2][i - 2] && value === board[index + 3][i - 3]) {
+            this.setState({winner: {value}})
+            minorFinished = true;
+          }
+  
+          if (index === 3 && i === 3) {
+           minorFinished = true;
+         } 
+        }
+        index++ 
+      }
   }
 
   render() {
     return (
+      <div>
       <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr", textAlign: "center"}}>
         {this.state.board.map((column, index) => (
           <div onClick={() => this.playerMove(index)} style={{border: "2px solid black"}}> 
@@ -121,6 +141,8 @@ class Board extends React.Component {
             })}
           </div>
         ))}
+      </div>
+      <div>{this.state.winner ? <div>Hello!</div> : null}</div>
       </div>
     );
   }
