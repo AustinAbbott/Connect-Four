@@ -1,5 +1,5 @@
 import React from "react";
-import roundChecker from './utilities/roundChecker.js'
+import roundChecker from "./utilities/roundChecker.js";
 
 // board is 7 across, 6 top to bottom
 // 0 = blank
@@ -45,10 +45,8 @@ class Board extends React.Component {
         break;
       }
     }
-    this.setState({winner: roundChecker(this.state.board)});
+    this.setState({ winner: roundChecker(this.state.board) });
   }
-
-  
 
   render() {
     return (
@@ -62,7 +60,9 @@ class Board extends React.Component {
           }}
         >
           {this.state.board.map((column, index) => (
-            <div onClick={() => this.playerMove(index)} style={{}}>
+            <div
+              onClick={this.state.winner ? null : () => this.playerMove(index)}
+            >
               {column.map(function (tile) {
                 if (!tile) {
                   return (
