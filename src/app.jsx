@@ -59,15 +59,16 @@ class Board extends React.Component {
           this.setState({winner: `${value}`});
           return;
         }
+      }
     }
-  }
 
     let count = 0;
 
     for (let i = 0; i < board[0].length; i++) {
       for (let j = 0; j < board.length - 1; j++) {
+        let value = board[j][i]
         if (count >= 3) {
-          return;
+          this.setState({winner: `${value}`})
         }
         if (board[j][i] === board[j + 1][i] && board[j][i] !== 0) {
           count++
@@ -77,7 +78,7 @@ class Board extends React.Component {
       }
     }
 
-    // ------ DIAGONALS -------- //
+    // -------- DIAGONALS -------- //
     let index = 0;
     let majorFinished = false;
 
@@ -96,7 +97,7 @@ class Board extends React.Component {
       } else {
         index++ 
       }
-      }
+    }
 
       // MINOR DIAGONALS
       index = 0;
@@ -113,30 +114,30 @@ class Board extends React.Component {
         if (index === 3) {
           minorFinished = true;
         } else {
-        index++ 
+          index++ 
         }
       }
   }
 
   render() {
     return (
-      <div>
-      <div style={{display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr", textAlign: "center"}}>
+      <div style={{padding: "150px"}}>
+      <div style={{display: "grid", backgroundColor: '#2367ed', gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr", textAlign: "center"}}>
         {this.state.board.map((column, index) => (
-          <div onClick={() => this.playerMove(index)} style={{border: "2px solid black"}}> 
+          <div onClick={() => this.playerMove(index)} style={{}}>
             {column.map(function(tile) {
               if (!tile) {
-                return <div style={{color: "grey", fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+                return <div style={{backgroundColor: "white", fontSize: "5em", margin: "5px", height: '75px', width: '75px', boxShadow: "5px 2.5px #363b3f", borderRadius: "50%", gridColumn: `${index + 1}`}}></div>;
               } else if (tile === 1) {
-                return <div style={{color: "red",  fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+                return <div style={{backgroundColor: "#d22636", fontSize: "5em", margin: "5px", height: '75px', width: '75px',  boxShadow: "5px 2.5px #363b3f", borderRadius: "50%", gridColumn: `${index + 1}`}}></div>;
               } else {
-                return <div style={{color: "blue", fontSize: "5em", padding: "0", gridColumn: `${index + 1}`}}>.</div>;
+                return <div style={{backgroundColor: "#fcd332", fontSize: "5em",  margin: "5px", height: '75px', width: '75px',  boxShadow: "5px 2.5px #363b3f", borderRadius: "50%", gridColumn: `${index + 1}`}}></div>;
               }
             })}
           </div>
         ))}
       </div>
-      <div>{this.state.winner ? <div>{this.state.winner === "2" ? 'Blue is the winner!' : "Red is the winner!"}</div> : null}</div>
+      <div>{this.state.winner ? <div>{this.state.winner === "2" ? 'Yellow is the winner!' : "Red is the winner!"}</div> : null}</div>
       </div>
     );
   }
