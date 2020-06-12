@@ -50,18 +50,26 @@ class Board extends React.Component {
 
   render() {
     return (
-      <div style={{ padding: "150px" }}>
+      <div
+        style={{ padding: "150px", textAlign: "center", fontFamily: "Verdana" }} 
+      >
+        <div style={{ margin: "0" }} key={Math.random()}>
+          <h1>Connect Four</h1>
+        </div>
         <div
           style={{
             display: "grid",
             backgroundColor: "#2367ed",
             gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr",
             textAlign: "center",
+            height: "50vh",
+            width: "auto"
           }}
+          key={Math.random()}
         >
           {this.state.board.map((column, index) => (
             <div
-              onClick={this.state.winner ? null : () => this.playerMove(index)}
+              onClick={this.state.winner ? null : () => this.playerMove(index)} key={Math.random()}
             >
               {column.map(function (tile) {
                 if (!tile) {
@@ -69,7 +77,6 @@ class Board extends React.Component {
                     <div
                       style={{
                         backgroundColor: "white",
-                        fontSize: "5em",
                         margin: "5px",
                         height: "75px",
                         width: "75px",
@@ -77,6 +84,7 @@ class Board extends React.Component {
                         borderRadius: "50%",
                         gridColumn: `${index + 1}`,
                       }}
+                      key={Math.random()}
                     ></div>
                   );
                 } else if (tile === 1) {
@@ -84,7 +92,6 @@ class Board extends React.Component {
                     <div
                       style={{
                         backgroundColor: "#d22636",
-                        fontSize: "5em",
                         margin: "5px",
                         height: "75px",
                         width: "75px",
@@ -92,6 +99,7 @@ class Board extends React.Component {
                         borderRadius: "50%",
                         gridColumn: `${index + 1}`,
                       }}
+                      key={Math.random()}
                     ></div>
                   );
                 } else {
@@ -99,7 +107,6 @@ class Board extends React.Component {
                     <div
                       style={{
                         backgroundColor: "#fcd332",
-                        fontSize: "5em",
                         margin: "5px",
                         height: "75px",
                         width: "75px",
@@ -107,6 +114,7 @@ class Board extends React.Component {
                         borderRadius: "50%",
                         gridColumn: `${index + 1}`,
                       }}
+                      key={Math.random()}
                     ></div>
                   );
                 }
@@ -114,12 +122,14 @@ class Board extends React.Component {
             </div>
           ))}
         </div>
-        <div>
+        <div key={Math.random()}>
           {this.state.winner ? (
             <div>
-              {this.state.winner === 2
-                ? "Yellow is the winner!"
-                : "Red is the winner!"}
+              <h3>
+                {this.state.winner === 2
+                  ? "Yellow is the winner!"
+                  : "Red is the winner!"}
+              </h3>
             </div>
           ) : null}
         </div>

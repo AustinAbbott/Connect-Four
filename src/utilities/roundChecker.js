@@ -15,21 +15,20 @@ function roundChecker(board) {
   }
 
   // -------- ROWS -------- //
-  let count = 0;
-
-  for (let i = 0; i < board[0].length; i++) {
-    for (let j = 0; j < board.length - 1; j++) {
-      let value = board[j][i];
-      if (count >= 3) {
+for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < board[i].length; j++) {
+      let value = board[i][j];
+      if (
+        value !== 0 &&
+        board[i + 1][j] === value &&
+        board[i + 2][j] === value &&
+        board[i + 3][j] === value
+      ) {
         return value;
-      }
-      if (board[j][i] === board[j + 1][i] && board[j][i] !== 0) {
-        count++;
-      } else {
-        count = 0;
       }
     }
   }
+  
 
   // -------- DIAGONALS -------- //
   let index = 0;
