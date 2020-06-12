@@ -1,9 +1,10 @@
 import React from "react";
+import roundChecker from './utilities/roundChecker.js'
 
 // board is 7 across, 6 top to bottom
 // 0 = blank
 // 1 = red
-// 2 = blue
+// 2 = yellow
 
 class Board extends React.Component {
   constructor() {
@@ -15,132 +16,117 @@ class Board extends React.Component {
         [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0], 
-        [0, 0, 0, 0, 0, 0]
+        [0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0],
       ],
       turn: 1,
-      winner: 0
+      winner: 0,
     };
-    this.playerMove = this.playerMove.bind(this)
+    this.playerMove = this.playerMove.bind(this);
   }
 
-  playerMove(columnNum){
+  playerMove(columnNum) {
+    let column = this.state.board[columnNum];
 
-    let column = this.state.board[columnNum]
-    
     for (let i = column.length - 1; i > -1; i--) {
-
-      let newGrid = this.state.board
+      let newGrid = this.state.board;
 
       if (column[i] === 0) {
         newGrid[columnNum][i] = this.state.turn;
         this.setState({
-          board: newGrid
-        })
+          board: newGrid,
+        });
 
         if (this.state.turn === 1) {
-          this.setState({turn: 2});
+          this.setState({ turn: 2 });
         } else {
-          this.setState({turn: 1});
+          this.setState({ turn: 1 });
         }
         break;
       }
     }
-    this.roundChecker(this.state.board)
+    this.setState({winner: roundChecker(this.state.board)});
   }
 
-  roundChecker(board) {
-
-    // COLUMNS
-    for (let i = 0; i < board.length; i++) {
-      for (let j = 0; j < 3; j++) {
-        let value = board[i][j]
-        if (value !== 0 && board[i][j + 1] === value && board[i][j + 2] === value && board[i][j + 3] === value) {
-          this.setState({winner: `${value}`});
-          return;
-        }
-      }
-    }
-
-    let count = 0;
-
-    for (let i = 0; i < board[0].length; i++) {
-      for (let j = 0; j < board.length - 1; j++) {
-        let value = board[j][i]
-        if (count >= 3) {
-          this.setState({winner: `${value}`})
-        }
-        if (board[j][i] === board[j + 1][i] && board[j][i] !== 0) {
-          count++
-        } else {
-          count = 0;
-        }
-      }
-    }
-
-    // -------- DIAGONALS -------- //
-    let index = 0;
-    let majorFinished = false;
-
-    // MAJOR DIAGONALS
-    while (!majorFinished) {
-
-      for (let i = 0; i < 3; i++) {
-        let value = board[index][i] 
-        if (value !== 0 && value === board[index + 1][i + 1] && value === board[index + 2][i + 2] && value === board[index + 3][i + 3]) {
-          this.setState({winner: `${value}`})
-          majorFinished = true;
-        }
-      }
-      if (index === 3) {
-        majorFinished = true;
-      } else {
-        index++ 
-      }
-    }
-
-      // MINOR DIAGONALS
-      index = 0;
-      let minorFinished = false;
-
-      while (!minorFinished) {
-        for (let i = 5; i > 2; i--) {
-          let value = board[index][i] 
-          if (value !== 0 && value === board[index + 1][i - 1] && value === board[index + 2][i - 2] && value === board[index + 3][i - 3]) {
-            this.setState({winner: `${value}`})
-            minorFinished = true;
-          }
-        }
-        if (index === 3) {
-          minorFinished = true;
-        } else {
-          index++ 
-        }
-      }
-  }
+  
 
   render() {
     return (
-      <div style={{padding: "150px"}}>
-      <div style={{display: "grid", backgroundColor: '#2367ed', gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr", textAlign: "center"}}>
-        {this.state.board.map((column, index) => (
-          <div onClick={() => this.playerMove(index)} style={{}}>
-            {column.map(function(tile) {
-              if (!tile) {
-                return <div style={{backgroundColor: "white", fontSize: "5em", margin: "5px", height: '75px', width: '75px', boxShadow: "5px 2.5px #363b3f", borderRadius: "50%", gridColumn: `${index + 1}`}}></div>;
-              } else if (tile === 1) {
-                return <div style={{backgroundColor: "#d22636", fontSize: "5em", margin: "5px", height: '75px', width: '75px',  boxShadow: "5px 2.5px #363b3f", borderRadius: "50%", gridColumn: `${index + 1}`}}></div>;
-              } else {
-                return <div style={{backgroundColor: "#fcd332", fontSize: "5em",  margin: "5px", height: '75px', width: '75px',  boxShadow: "5px 2.5px #363b3f", borderRadius: "50%", gridColumn: `${index + 1}`}}></div>;
-              }
-            })}
-          </div>
-        ))}
-      </div>
-      <div>{this.state.winner ? <div>{this.state.winner === "2" ? 'Yellow is the winner!' : "Red is the winner!"}</div> : null}</div>
+      <div style={{ padding: "150px" }}>
+        <div
+          style={{
+            display: "grid",
+            backgroundColor: "#2367ed",
+            gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr",
+            textAlign: "center",
+          }}
+        >
+          {this.state.board.map((column, index) => (
+            <div onClick={() => this.playerMove(index)} style={{}}>
+              {column.map(function (tile) {
+                if (!tile) {
+                  return (
+                    <div
+                      style={{
+                        backgroundColor: "white",
+                        fontSize: "5em",
+                        margin: "5px",
+                        height: "75px",
+                        width: "75px",
+                        boxShadow: "5px 1.5px #363b3f",
+                        borderRadius: "50%",
+                        gridColumn: `${index + 1}`,
+                      }}
+                    ></div>
+                  );
+                } else if (tile === 1) {
+                  return (
+                    <div
+                      style={{
+                        backgroundColor: "#d22636",
+                        fontSize: "5em",
+                        margin: "5px",
+                        height: "75px",
+                        width: "75px",
+                        boxShadow: "5px 1.5px #363b3f",
+                        borderRadius: "50%",
+                        gridColumn: `${index + 1}`,
+                      }}
+                    ></div>
+                  );
+                } else {
+                  return (
+                    <div
+                      style={{
+                        backgroundColor: "#fcd332",
+                        fontSize: "5em",
+                        margin: "5px",
+                        height: "75px",
+                        width: "75px",
+                        boxShadow: "5px 1.5px #363b3f",
+                        borderRadius: "50%",
+                        gridColumn: `${index + 1}`,
+                      }}
+                    ></div>
+                  );
+                }
+              })}
+            </div>
+          ))}
+        </div>
+        <div>
+          {this.state.winner ? (
+            <div>
+              {this.state.winner === 2
+                ? "Yellow is the winner!"
+                : "Red is the winner!"}
+            </div>
+          ) : null}
+        </div>
       </div>
     );
   }
 }
 
 export default Board;
+``;
