@@ -6,7 +6,7 @@ import roundChecker from "./utilities/roundChecker.js";
 // 1 = red
 // 2 = yellow
 
-class Board extends React.Component {
+class App extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -51,7 +51,7 @@ class Board extends React.Component {
   render() {
     return (
       <div
-        style={{ padding: "150px", textAlign: "center", fontFamily: "Verdana" }} 
+        style={{ padding: "150px", textAlign: "center", fontFamily: "Verdana" }}
       >
         <div style={{ margin: "0" }} key={Math.random()}>
           <h1>Connect Four</h1>
@@ -60,16 +60,18 @@ class Board extends React.Component {
           style={{
             display: "grid",
             backgroundColor: "#2367ed",
-            gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr",
+            gridTemplateColumns:
+              "14% 14% 14% 14% 14% 14% 14%",
             textAlign: "center",
-            height: "50vh",
-            width: "auto"
+            height: "80vh",
+            width: "auto",
           }}
           key={Math.random()}
         >
           {this.state.board.map((column, index) => (
             <div
-              onClick={this.state.winner ? null : () => this.playerMove(index)} key={Math.random()}
+              onClick={this.state.winner ? null : () => this.playerMove(index)}
+              key={Math.random()}
             >
               {column.map(function (tile) {
                 if (!tile) {
@@ -138,5 +140,4 @@ class Board extends React.Component {
   }
 }
 
-export default Board;
-``;
+export default App;
