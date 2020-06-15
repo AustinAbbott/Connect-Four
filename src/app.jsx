@@ -51,7 +51,7 @@ class App extends React.Component {
   render() {
     return (
       <div
-        style={{ padding: "150px", textAlign: "center", fontFamily: "Verdana" }}
+        style={{ padding: "15%", textAlign: "center", fontFamily: "Verdana" }}
       >
         <div style={{ margin: "0" }} key={Math.random()}>
           <h1>Connect Four</h1>
@@ -60,10 +60,10 @@ class App extends React.Component {
           style={{
             display: "grid",
             backgroundColor: "#2367ed",
-            gridTemplateColumns:
-              "14% 14% 14% 14% 14% 14% 14%",
+            gridTemplateColumns: "14% 14% 14% 14% 14% 14% 14%",
+            gridTemplateRows: "14% 14% 14% 14% 14% 14% 14%",
             textAlign: "center",
-            height: "80vh",
+            height: "75%",
             width: "auto",
           }}
           key={Math.random()}
@@ -73,18 +73,19 @@ class App extends React.Component {
               onClick={this.state.winner ? null : () => this.playerMove(index)}
               key={Math.random()}
             >
-              {column.map(function (tile) {
+              {column.map(function (tile, tileIndex) {
                 if (!tile) {
                   return (
                     <div
                       style={{
                         backgroundColor: "white",
-                        margin: "5px",
+                        margin: "12.5%",
                         height: "75px",
                         width: "75px",
                         boxShadow: "5px 1.5px #363b3f",
                         borderRadius: "50%",
                         gridColumn: `${index + 1}`,
+                        gridRow: `${tileIndex + 1}`,
                       }}
                       key={Math.random()}
                     ></div>
@@ -94,12 +95,13 @@ class App extends React.Component {
                     <div
                       style={{
                         backgroundColor: "#d22636",
-                        margin: "5px",
+                        margin: "12.5%",
                         height: "75px",
                         width: "75px",
                         boxShadow: "5px 1.5px #363b3f",
                         borderRadius: "50%",
                         gridColumn: `${index + 1}`,
+                        gridRow: `${tileIndex + 1}`,
                       }}
                       key={Math.random()}
                     ></div>
@@ -109,12 +111,13 @@ class App extends React.Component {
                     <div
                       style={{
                         backgroundColor: "#fcd332",
-                        margin: "5px",
+                        margin: "12.5%",
                         height: "75px",
                         width: "75px",
                         boxShadow: "5px 1.5px #363b3f",
                         borderRadius: "50%",
                         gridColumn: `${index + 1}`,
+                        gridRow: `${tileIndex + 1}`,
                       }}
                       key={Math.random()}
                     ></div>
